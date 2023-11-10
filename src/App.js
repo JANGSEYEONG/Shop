@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 
 import Main from './components/Main';
 import Detail from './components/Detail';
+import About from './components/About';
+import EventPage from './components/EventPage';
 
 function App() {
 
@@ -32,9 +34,13 @@ function App() {
       <Routes>
         <Route path='/' element={ <Main /> } />
         <Route path='/detail' element={<Detail/>} />
-        <Route path='/about' element={<div>about</div>}>
+        <Route path='/about' element={<About/>}>
           <Route path='member' element={<div>멤버들</div>}/>
           <Route path='location' element={<div>회사위치</div>}/>
+        </Route>
+        <Route path='/event' element={<EventPage/>}>
+          <Route path='one' element={<p>첫 주문 시 양배추즙 서비스</p>}/>
+          <Route path='two' element={<p>생일기념 쿠폰받기</p>}/>
         </Route>
         <Route path='*' element={<div>없는 페이지입니다</div>} />
       </Routes>
@@ -42,7 +48,7 @@ function App() {
       {/* <Link to="/">홈</Link>
       <Link to="/detail">상세페이지</Link> */}
 
-      <button onClick={()=>{navigate('/detail')}}>이동합시다</button>
+      {/* <button onClick={()=>{navigate('/detail')}}>이동합시다</button> */}
     </div> 
   );
 }
