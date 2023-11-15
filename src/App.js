@@ -33,7 +33,7 @@ function App() {
       {/* Routes 정의 */}
       <Routes>
         <Route path='/' element={ <Main /> } />
-        <Route path='/detail' element={<Detail/>} />
+        <Route path='/detail/:targetId' element={<Detail/>} />
         <Route path='/about' element={<About/>}>
           <Route path='member' element={<div>멤버들</div>}/>
           <Route path='location' element={<div>회사위치</div>}/>
@@ -49,6 +49,7 @@ function App() {
       <Link to="/detail">상세페이지</Link> */}
 
       {/* <button onClick={()=>{navigate('/detail')}}>이동합시다</button> */}
+
     </div> 
   );
 }
