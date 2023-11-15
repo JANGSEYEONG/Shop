@@ -1,16 +1,22 @@
 import { useSelector } from "react-redux";
-import {Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import default_Img from '../bg.png';
 
 export default function Card(){
 
     let items = useSelector(state=>state.shoesData);
     let navigate = useNavigate();
 
+    const onErrorImg = (e)=>{
+      e.target.src = default_Img;
+    }
+
     return (
         items.map((item, i)=>{
             return (
               <div className='col-md-4' key={item.id} onClick={()=>{navigate(`/detail/${item.id}`)}}>
-                <img src={`https://codingapple1.github.io/shop/shoes${item.id+1}.jpg`} width="80%"/>
+                <img src={`https://codingapple1.github.io/shop/shoes${item.id+1}.jpg`} width="80%"
+                      onError={onErrorImg}/>
                 <h4>{item.title}</h4>
                 <p>{item.content}</p>
               </div>
