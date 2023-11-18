@@ -1,7 +1,9 @@
 import {Table} from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addCartCount } from './../stores/cartStore';
+import { addCartCount,delCartItem } from './../stores/cartStore';
+
+import RecentItem from './Recent';
 
 export default function Cart(){
 
@@ -14,6 +16,7 @@ export default function Cart(){
 
   return (
     <>
+    <div style={{display : 'flex'}}>
       <Table>
         <thead>
           <tr>
@@ -31,13 +34,21 @@ export default function Cart(){
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.count}</td>
-                  <td><button onClick={()=>{addCount(item.id, 1)}}>+</button></td>
+                  <td>
+                    <button onClick={()=>{addCount(item.id, -1)}}>-</button>
+                    <button onClick={()=>{addCount(item.id, 1)}}>+</button>  
+                    <button onClick={()=>{dispatch(delCartItem(item.id))}}>🗑️</button>                  
+                  </td>
                 </tr>
               )
             })
           }
         </tbody>
       </Table>
+      <div style={{margin: '3rem'}}>
+        <RecentItem/>
+      </div>
+    </div>
     </>
   );
 

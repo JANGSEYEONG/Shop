@@ -13,6 +13,8 @@ let cartData = createSlice({
             const findItem = state.find(item=>item.id === info.id);
 
             findItem.count += info.count;
+
+            if(findItem.count < 0) findItem.count = 0;
             
         }, addCartItem(state, action){
             const item = action.payload;
@@ -23,9 +25,12 @@ let cartData = createSlice({
             }else{
                 state.push(item);
             }
+        }, delCartItem(state, action){
+            const findIdx = state.findIndex(data=>data.id === action.payload);
+            state.splice(findIdx, 1);
         }
     }
 });
 
 export default cartData;
-export let { addCartItem,addCartCount } = cartData.actions;
+export let { addCartItem,addCartCount,delCartItem } = cartData.actions;

@@ -21,7 +21,10 @@ function App() {
   let navigate = useNavigate();
 
   useEffect(()=>{
-    Util.SetLocal('watched', [], true);
+    let locatData = Util.GetLocal('watched', true);
+    if(!locatData){ //없을 때만 추가
+      Util.SetLocal('watched', [], true);
+    }
   }, []);
 
   return (

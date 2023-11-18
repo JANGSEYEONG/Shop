@@ -6,6 +6,8 @@ import { addItem, sortItem } from "./../stores/shoeStore.js"
 import {Const} from "../utils/const.js"
 
 import Card from './Card';
+import Recent from './Recent.js';
+
 
 export default function Main(){
 
@@ -40,13 +42,21 @@ export default function Main(){
         <>
         <div className='main-bg'></div>
         
-        <button onClick={()=>{dispatch(sortItem(Const.emSortType.Name))}}>가나다 정렬</button>
-        <button onClick={()=>{dispatch(sortItem(Const.emSortType.Price))}}>가격높은순 정렬</button>
-        <button onClick={()=>{addItems()}}>상품 더보기</button>
-        <div className='container'>
-            <div className='row'>
-                <Card></Card>      
+        <div>
+            <button type="button" className="btn btn-secondary" style={{margin: '1rem'}}
+                onClick={()=>{dispatch(sortItem(Const.emSortType.Name))}}>가나다 정렬</button>
+            <button type="button" className="btn btn-secondary" style={{margin: '1rem'}}
+                onClick={()=>{dispatch(sortItem(Const.emSortType.Price))}}>가격높은순 정렬</button>
+            <button type="button" className="btn btn-secondary" style={{margin: '1rem'}}
+                onClick={()=>{addItems()}}>상품 더보기</button>
+        </div>
+        <div style={{display:'flex'}}>
+            <div className='container'>
+                <div className='row'>
+                    <Card></Card>      
+                </div>
             </div>
+            <Recent />
         </div>
         { isLoading ? <div className="alert alert-warning">로딩중입니다..</div> : null}
         </>       
