@@ -1,14 +1,18 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
+import { Nav } from 'react-bootstrap';
 
+import { addCartItem } from './../stores/cartStore';
 
 export default function Detail(){
     
     const { targetId } = useParams();
-    const item = useSelector(state=>state.shoesData).find(item=>item.id.toString() === targetId); 
+    const item = useSelector(state=>state.shoesData).find(item=>item.id.toString() === targetId);
+    
+    const dispatch = useDispatch();
     
     // 여기서만 쓰이는 state는 여기서 정의하자
     const [alert, setAlert] = useState(true);
@@ -17,7 +21,7 @@ export default function Detail(){
 
     // useEffect 정의
     useEffect(()=>{
-       
+
         // load, Update 시 실행
         let timer = setTimeout(()=>{
             setAlert(false);
@@ -53,7 +57,9 @@ export default function Detail(){
                     <h4 className="pt-5">{item.title}</h4>
                     <p>{item.content}</p>
                     <p>{`${item.price}원`}</p>
-                    <button className="btn btn-danger">주문하기</button> 
+                    <button className="btn btn-danger" onClick={()=>{
+                        dispatch(addCartItem({id : item.id, name : item.title, count : 1}));
+                    }}>주문하기</button> 
                     </div>
                 </div>
             </div> 

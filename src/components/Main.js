@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import axios from 'axios'
-import { addItem, sortItem } from "./../store.js"
+import { addItem, sortItem } from "./../stores/shoeStore.js"
 
 import {Const} from "../utils/const.js"
 

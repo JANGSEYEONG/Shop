@@ -4,8 +4,8 @@ import default_Img from '../bg.png';
 
 export default function Card(){
 
-    let items = useSelector(state=>state.shoesData);
-    let navigate = useNavigate();
+    const items = useSelector(state=>state.shoesData);
+    const navigate = useNavigate();
 
     const onErrorImg = (e)=>{
       e.target.src = default_Img;

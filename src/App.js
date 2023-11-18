@@ -11,21 +11,28 @@ import Detail from './components/Detail';
 import About from './components/About';
 import EventPage from './components/EventPage';
 import Cart from './components/Cart';
+import { useEffect } from 'react';
+
+import {Util} from './utils/util';
 
 function App() {
 
   //let items = useSelector(state=>state.shoesData);
   let navigate = useNavigate();
 
+  useEffect(()=>{
+    Util.SetLocal('watched', [], true);
+  }, []);
+
   return (
     <div className='App'>
       <Navbar bg="dark" variant="dark">
         <Container>
-        <Navbar.Brand href="/">Shop</Navbar.Brand>
+        <Navbar.Brand onClick={()=>{navigate('/')}}>Shop</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/about">About</Nav.Link>
-          <Nav.Link href="/cart">Cart</Nav.Link>
+          <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
+          <Nav.Link onClick={()=>{navigate('/about')}}>About</Nav.Link>
+          <Nav.Link onClick={()=>{navigate('/cart')}}>Cart</Nav.Link>
         </Nav>
         </Container>
       </Navbar>
