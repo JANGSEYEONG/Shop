@@ -4,14 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addCartCount,delCartItem } from './../stores/cartStore';
 
 import RecentItem from './Recent';
+import Message from './Message';
 
 export default function Cart(){
 
   const items = useSelector(state => state.cartData);
   const dispatch = useDispatch();
-
+  
   const addCount = (id, count)=>{
     dispatch(addCartCount({id : id, count : count}));
+  }
+
+  const delCallback = ()=>{
+    // useMemo 쓰면 뭔가 가능할듯한데..
+    window.alert('확인버튼누름');
   }
 
   return (
@@ -49,6 +55,9 @@ export default function Cart(){
         <RecentItem/>
       </div>
     </div>
+
+    <Message title={'알림'} content={'상품을 삭제하시겠습니까?'} isDanger={true} callback={delCallback}/>
+
     </>
   );
 
