@@ -2,6 +2,7 @@ import {Table} from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addCartCount,delCartItem } from './../stores/cartStore';
+import {chgMsgState} from './../stores/msgStore';
 
 import RecentItem from './Recent';
 import Message from './Message';
@@ -20,9 +21,14 @@ export default function Cart(){
     window.alert('확인버튼누름');
   }
 
+  const handleDelete = ()=>{
+    dispatch(chgMsgState(true));
+    // dispatch(delCartItem(item.id))}
+  }
+
   return (
     <>
-    <div style={{display : 'flex'}}>
+    <div style={{display : 'flex'}}>    
       <Table>
         <thead>
           <tr>
@@ -43,7 +49,7 @@ export default function Cart(){
                   <td>
                     <button onClick={()=>{addCount(item.id, -1)}}>-</button>
                     <button onClick={()=>{addCount(item.id, 1)}}>+</button>  
-                    <button onClick={()=>{dispatch(delCartItem(item.id))}}>🗑️</button>                  
+                    <button onClick={()=>{handleDelete()}}>🗑️</button>                  
                   </td>
                 </tr>
               )

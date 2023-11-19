@@ -1,16 +1,20 @@
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useSelector, useDispatch } from "react-redux";
+import {chgMsgState} from '../stores/msgStore';
 
 export default function Message(props) {
 
     // 넘겨받는 인자들
     const {title, content, isDanger, callback, payLoad} = props;
 
-    const [show, setShow] = useState(false);
+    const show = useSelector(state=>state.msgState);
+    const dispatch = useDispatch();
+    // const [show, setShow] = useState(isShow);
+    // console.log(isShow)
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => dispatch(chgMsgState(false));
+    const handleShow = () => dispatch(chgMsgState(true));
 
     const handleConfirm = ()=>{
         if(callback) callback();
@@ -18,9 +22,9 @@ export default function Message(props) {
     }
     return (
         <>
-        <Button variant="primary" onClick={handleShow}>
+        {/* <Button variant="primary" onClick={handleShow}>
             Launch static backdrop modal
-        </Button>
+        </Button> */}
 
         <Modal
             show={show}
