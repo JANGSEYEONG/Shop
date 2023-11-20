@@ -7,6 +7,10 @@ import {chgMsgState} from './../stores/msgStore';
 import RecentItem from './Recent';
 import Message from './Message';
 
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+
 export default function Cart(){
 
   const items = useSelector(state => state.cartData);
@@ -26,8 +30,14 @@ export default function Cart(){
     // dispatch(delCartItem(item.id))}
   }
 
+  let result = useQuery({ queryKey: ['작명'], queryFn: ()=>{
+    return axios.get('https://codingapple1.github.io/userdata.json')
+    .then(x=>x.data)
+  }});
+
   return (
     <>
+    <div>{`${result.data.name}의 장바구니`}</div>
     <div style={{display : 'flex'}}>    
       <Table>
         <thead>
