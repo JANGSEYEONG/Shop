@@ -30,9 +30,12 @@ function App() {
   }, []);
 
   //https://codingapple1.github.io/userdata.json
-  // const result = useQuery('get-users', ()=>{
-  //   return axios.get('https://codingapple1.github.io/userdata.json')
-  // });
+  // react-query 4 이상 버전부터 문법 변겅, 공식 사이트 확인 필요
+  let result = useQuery({ queryKey: ['작명'], queryFn: ()=>{
+    return axios.get('https://codingapple1.github.io/userdata.json')
+    .then(x=>x.data)
+  }});
+
 
   return (
     <div className='App'>
@@ -43,13 +46,19 @@ function App() {
         {result.data && result.data.name}
       </div> */}
 
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="light" variant="light">
         <Container>
         <Navbar.Brand onClick={()=>{navigate('/')}}>Shop</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
           <Nav.Link onClick={()=>{navigate('/about')}}>About</Nav.Link>
           <Nav.Link onClick={()=>{navigate('/cart')}}>Cart</Nav.Link>
+        </Nav>
+        <Nav className='ms-auto'>
+          반가워요&nbsp;
+          {result.isLoading && '로딩중'}
+          {result.error && '에러남'}
+          {result.data && result.data.name}
         </Nav>
         </Container>
       </Navbar>
