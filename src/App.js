@@ -14,6 +14,8 @@ import Cart from './components/Cart';
 import { useEffect } from 'react';
 
 import {Util} from './utils/util';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 function App() {
 
@@ -27,8 +29,20 @@ function App() {
     }
   }, []);
 
+  //https://codingapple1.github.io/userdata.json
+  // const result = useQuery('get-users', ()=>{
+  //   return axios.get('https://codingapple1.github.io/userdata.json')
+  // });
+
   return (
     <div className='App'>
+
+      {/* <div>
+        {result.isLoading && '로딩중'}
+        {result.error && '에러남'}
+        {result.data && result.data.name}
+      </div> */}
+
       <Navbar bg="dark" variant="dark">
         <Container>
         <Navbar.Brand onClick={()=>{navigate('/')}}>Shop</Navbar.Brand>
