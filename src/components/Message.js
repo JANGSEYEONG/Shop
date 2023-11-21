@@ -6,18 +6,26 @@ import {chgMsgState} from '../stores/msgStore';
 export default function Message(props) {
 
     // 넘겨받는 인자들
-    const {title, content, isDanger, callback, payLoad} = props;
+    const {title, content, isDanger } = props;
 
-    const show = useSelector(state=>state.msgState);
+    const msgState = useSelector(state=>state.msgState);
     const dispatch = useDispatch();
     // const [show, setShow] = useState(isShow);
     // console.log(isShow)
 
-    const handleClose = () => dispatch(chgMsgState(false));
-    const handleShow = () => dispatch(chgMsgState(true));
+    const handleClose = () => dispatch(chgMsgState({isShow: false, callbackName : '', param: {}}));
+    // const handleShow = () => dispatch(chgMsgState(true));
 
     const handleConfirm = ()=>{
-        if(callback) callback();
+        
+        switch(msgState.callbackName.toString()){
+            case 'CartDelete':
+                msgState.param.callback(msgState.param.delId);
+                break;
+            default: break;
+        }
+
+        // 닫으면서 초기화
         handleClose();
     }
     return (
@@ -27,7 +35,7 @@ export default function Message(props) {
         </Button> */}
 
         <Modal
-            show={show}
+            show={msgState.isShow}
             onHide={handleClose}
             backdrop="static"
             keyboard={false}

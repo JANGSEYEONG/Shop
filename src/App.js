@@ -6,16 +6,19 @@ import {Button, Navbar, Container, Nav} from 'react-bootstrap'
 import {Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import { useSelector } from "react-redux";
 
-import Main from './components/Main';
-import Detail from './components/Detail';
-import About from './components/About';
-import EventPage from './components/EventPage';
-import Cart from './components/Cart';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 
 import {Util} from './utils/util';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+
+import Main from './components/Main';
+
+// lazy
+const Detail  = lazy(()=>import('./components/Detail'));
+const Cart  = lazy(()=>import('./components/Cart'));
+const About  = lazy(()=>import('./components/About'));
+const EventPage  = lazy(()=>import('./components/EventPage'));
 
 function App() {
 
@@ -64,21 +67,22 @@ function App() {
       </Navbar>
 
       {/* Routes 정의 */}
-      <Routes>
-        <Route path='/' element={ <Main /> } />
-        <Route path='/detail/:targetId' element={<Detail/>} />
-        <Route path='/about' element={<About/>}>
-          <Route path='member' element={<div>멤버들</div>}/>
-          <Route path='location' element={<div>회사위치</div>}/>
-        </Route>
-        <Route path='/event' element={<EventPage/>}>
-          <Route path='one' element={<p>첫 주문 시 양배추즙 서비스</p>}/>
-          <Route path='two' element={<p>생일기념 쿠폰받기</p>}/>
-        </Route>
-        <Route path='/cart' element={ <Cart /> } />
-        <Route path='*' element={<div>없는 페이지입니다</div>} />
-      </Routes>
-      
+      <Suspense fallback={<div>로딩중입니다</div>}>
+        <Routes>
+          <Route path='/' element={ <Main /> } />
+          <Route path='/detail/:targetId' element={<Detail/>} />
+          <Route path='/about' element={<About/>}>
+            <Route path='member' element={<div>멤버들</div>}/>
+            <Route path='location' element={<div>회사위치</div>}/>
+          </Route>
+          <Route path='/event' element={<EventPage/>}>
+            <Route path='one' element={<p>첫 주문 시 양배추즙 서비스</p>}/>
+            <Route path='two' element={<p>생일기념 쿠폰받기</p>}/>
+          </Route>
+          <Route path='/cart' element={ <Cart /> } />
+          <Route path='*' element={<div>없는 페이지입니다</div>} />
+        </Routes>
+      </Suspense>
       {/* <Link to="/">홈</Link>
       <Link to="/detail">상세페이지</Link> */}
 

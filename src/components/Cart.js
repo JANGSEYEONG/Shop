@@ -19,14 +19,14 @@ export default function Cart(){
   const addCount = (id, count)=>{
     dispatch(addCartCount({id : id, count : count}));
   }
-
-  const delCallback = ()=>{
-    // useMemo 쓰면 뭔가 가능할듯한데..
-    window.alert('확인버튼누름');
+  
+  const deleteCallback = (id)=>{
+    dispatch(delCartItem(id))
   }
 
-  const handleDelete = ()=>{
-    dispatch(chgMsgState(true));
+  const handleDelete = (id)=>{
+    //item.id
+    dispatch(chgMsgState({isShow : true, callbackName: 'CartDelete', param : {delId : id, callback: deleteCallback}}));
     // dispatch(delCartItem(item.id))}
   }
 
@@ -59,7 +59,7 @@ export default function Cart(){
                   <td>
                     <button onClick={()=>{addCount(item.id, -1)}}>-</button>
                     <button onClick={()=>{addCount(item.id, 1)}}>+</button>  
-                    <button onClick={()=>{handleDelete()}}>🗑️</button>                  
+                    <button onClick={()=>{handleDelete(item.id)}}>🗑️</button>                  
                   </td>
                 </tr>
               )
@@ -72,7 +72,7 @@ export default function Cart(){
       </div>
     </div>
 
-    <Message title={'알림'} content={'상품을 삭제하시겠습니까?'} isDanger={true} callback={delCallback}/>
+    <Message title={'알림'} content={'상품을 삭제하시겠습니까?'} isDanger={true}/>
 
     </>
   );

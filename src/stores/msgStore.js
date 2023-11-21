@@ -2,11 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 let msgState = createSlice({
     name: 'MsgState',
-    initialState : false,
+    initialState : { isShow : false, callbackName: '', param : {}},
 
     reducers : {
         chgMsgState(state, action){
-            return action.payload;
+            state.isShow = action.payload.isShow;
+            state.callbackName = action.payload.callbackName;
+            state.param = action.payload.param;
         }
     }
 });
