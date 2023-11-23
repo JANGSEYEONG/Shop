@@ -2,7 +2,8 @@
 const Util = {};
 
 Util.IsNullOrWhiteSpace = (val)=>{
-    if(val === undefined || val === null || val.trim() === '') return true;
+    if(val === undefined || val === null ) return true;
+    if(val.trim && val.trim() === '') return true;
     return false;
 }
 

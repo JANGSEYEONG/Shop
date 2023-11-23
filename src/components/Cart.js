@@ -10,10 +10,13 @@ import Message from './Message';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+import {Util} from './../utils/util';
+
 
 export default function Cart(){
 
-  const items = useSelector(state => state.cartData);
+  const {cartData, shoesData} = useSelector(state => state);
+
   const dispatch = useDispatch();
   
   const addCount = (id, count)=>{
@@ -28,6 +31,22 @@ export default function Cart(){
     //item.id
     dispatch(chgMsgState({isShow : true, callbackName: 'CartDelete', param : {delId : id, callback: deleteCallback}}));
     // dispatch(delCartItem(item.id))}
+  }
+
+  const getItemPrice = (id)=>{
+    if(!Util.IsNullOrWhiteSpace(shoesData))
+      return shoesData.find((x)=>x.id === id).price;
+
+    return 0;
+  }
+  
+  const getTotalPrice = ()=>{
+    
+    return cartData.reduce((acc, cur, idx, arr)=>{
+      return acc + (getItemPrice(cur.id) * cur.count);
+      //return acc;
+    }, 0);
+
   }
 
   let result = useQuery({ queryKey: ['작명'], queryFn: ()=>{
@@ -46,11 +65,12 @@ export default function Cart(){
             <th>상품명</th>
             <th>수량</th>
             <th>변경하기</th>
+            <th>가격</th>
           </tr>
         </thead>
         <tbody>
           {
-            items.map((item, i)=>{
+            cartData.map((item, i)=>{
               return (    
                 <tr key={item.id}>
                   <td>{item.id}</td>
@@ -61,10 +81,18 @@ export default function Cart(){
                     <button onClick={()=>{addCount(item.id, 1)}}>+</button>  
                     <button onClick={()=>{handleDelete(item.id)}}>🗑️</button>                  
                   </td>
+                  <td>{item.count * getItemPrice(item.id)}</td>
                 </tr>
               )
-            })
+            })          
           }
+          <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>총합</td>
+              <td>{getTotalPrice()}</td>
+            </tr>
         </tbody>
       </Table>
       <div style={{margin: '3rem'}}>
