@@ -1,14 +1,18 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { Nav } from 'react-bootstrap';
 
 import { addCartItem } from './../stores/cartStore';
+import {chgMsgState} from './../stores/msgStore';
+
 import default_Img from '../bg.png';
 
 import RecentItem from './Recent';
+
+import {Const} from './../utils/const';
 
 export default function Detail(){
     
@@ -22,8 +26,35 @@ export default function Detail(){
     const [tabId, setTabId] = useState(0);
     const [fade, setFade] = useState('');
 
+    const navigate = useNavigate();
+
     const onErrorImg = (e)=>{
         e.target.src = default_Img;
+    }
+
+    const goCart = ()=>{
+        navigate('/cart');
+    }
+    const handleOrder = (id, title)=>{
+        dispatch(addCartItem({id : id, name : title, count : 1}));
+        
+        setTimeout(()=>{
+
+            dispatch(chgMsgState({
+                isShow : true,
+                isDanger : false,
+                type : Const.emMessageType.OkCancel,
+
+                title : '알림',
+                content: `상품이 장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?`,
+                
+                confirmCallback: goCart,
+
+                cancleCallback : null,
+                param : {}
+            }));
+
+        });
     }
 
     // useEffect 정의
@@ -62,15 +93,13 @@ export default function Detail(){
                             <div className="row">
                             <div className="col-md-6">
                             <img src={`https://codingapple1.github.io/shop/shoes${item.id + 1}.jpg`} width="100%" 
-                                onError={onErrorImg}/>
+                                onError={onErrorImg} alt="상품이미지"/>
                             </div>
                             <div className="col-md-6">
                             <h4 className="pt-5">{item.title}</h4>
                             <p>{item.content}</p>
                             <p>{`${item.price}원`}</p>
-                            <button className="btn btn-danger" onClick={()=>{
-                                dispatch(addCartItem({id : item.id, name : item.title, count : 1}));
-                            }}>주문하기</button> 
+                            <button className="btn btn-danger" onClick={()=>{ handleOrder(item.id, item.title);}}>주문하기</button> 
                             </div>
                         </div>
                     </div> 
@@ -95,6 +124,7 @@ export default function Detail(){
                 </div>
             </div>
         </div>
+
         </>
     )
 }

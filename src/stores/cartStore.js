@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {Const} from './../utils/const';
 
 let cartData = createSlice({
     name: 'cartData',
@@ -28,9 +29,20 @@ let cartData = createSlice({
         }, delCartItem(state, action){
             const findIdx = state.findIndex(data=>data.id === action.payload);
             state.splice(findIdx, 1);
+        }, sortCartItem(state, action){
+            const sortType = action.payload;
+
+            if(sortType === Const.emSortType.Name){
+                state = state.sort((a,b)=>{
+                    if(a.name > b.name) return 1;
+                    if(a.name < b.name) return -1;
+                    return 0;
+                });
+            }
+
         }
     }
 });
 
 export default cartData;
-export let { addCartItem,addCartCount,delCartItem } = cartData.actions;
+export let { addCartItem,addCartCount,delCartItem,sortCartItem } = cartData.actions;

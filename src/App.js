@@ -2,9 +2,8 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
-import {Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import { useSelector } from "react-redux";
+import { Navbar, Container, Nav} from 'react-bootstrap'
+import {Routes, Route, useNavigate } from 'react-router-dom'
 
 import { useEffect, lazy, Suspense } from 'react';
 
@@ -13,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 import Main from './components/Main';
+import Message from './components/Message';
 
 // lazy
 const Detail  = lazy(()=>import('./components/Detail'));
@@ -23,7 +23,7 @@ const EventPage  = lazy(()=>import('./components/EventPage'));
 function App() {
 
   //let items = useSelector(state=>state.shoesData);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     let locatData = Util.GetLocal('watched', true);
@@ -41,6 +41,7 @@ function App() {
 
 
   return (
+    <>
     <div className='App'>
 
       {/* <div>
@@ -89,6 +90,11 @@ function App() {
       {/* <button onClick={()=>{navigate('/detail')}}>이동합시다</button> */}
 
     </div> 
+
+    {/* 공통 메세지창 */}
+    <Message></Message>
+
+    </>
   );
 }
 

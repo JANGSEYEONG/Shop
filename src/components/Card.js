@@ -28,7 +28,7 @@ export default function Card(){
             return (
               <div className='col-md-4' key={item.id} onClick={()=>{clickCard(item.id)}}>
                 <img src={`https://codingapple1.github.io/shop/shoes${item.id+1}.jpg`} width="80%"
-                      onError={onErrorImg}/>
+                      onError={onErrorImg} alt='상품 이미지' />
                 <h4>{item.title}</h4>
                 <p>{item.content}</p>
               </div>

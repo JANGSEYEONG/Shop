@@ -1,36 +1,55 @@
 import {Table} from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addCartCount,delCartItem } from './../stores/cartStore';
+import { addCartCount,delCartItem,sortCartItem } from './../stores/cartStore';
 import {chgMsgState} from './../stores/msgStore';
 
 import RecentItem from './Recent';
-import Message from './Message';
 
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 import {Util} from './../utils/util';
+import {Const} from "../utils/const.js"
 
 
 export default function Cart(){
 
-  const {cartData, shoesData} = useSelector(state => state);
+  const cartData = useSelector(state => state.cartData);
+  const shoesData = useSelector(state => state.shoesData);
 
   const dispatch = useDispatch();
   
   const addCount = (id, count)=>{
-    dispatch(addCartCount({id : id, count : count}));
+    const remainCnt = cartData.find(x=>x.id===id).count + count;
+    if(remainCnt <= 0){
+      // 수량이 1개만 남았는데 줄이는 경우, 삭제 메세지 띄우기
+      handleDelete(id)
+    }else{
+      dispatch(addCartCount({id : id, count : count}));
+    }   
   }
   
-  const deleteCallback = (id)=>{
-    dispatch(delCartItem(id))
+  const deleteCallback = ({delId})=>{
+    dispatch(delCartItem(delId))
   }
 
   const handleDelete = (id)=>{
+    console.log('click 상품삭제')
     //item.id
-    dispatch(chgMsgState({isShow : true, callbackName: 'CartDelete', param : {delId : id, callback: deleteCallback}}));
-    // dispatch(delCartItem(item.id))}
+    dispatch(chgMsgState({
+      isShow : true,
+      isDanger : true,
+      type : Const.emMessageType.OkCancel,
+
+      title : '알림',
+      content: '상품을 삭제하시겠습니까?',
+      
+      confirmCallback: deleteCallback, 
+
+      cancleCallback : null,
+      param : {delId : id}
+    }));
   }
 
   const getItemPrice = (id)=>{
@@ -57,7 +76,9 @@ export default function Cart(){
   return (
     <>
     <div>{`${result.data.name}의 장바구니`}</div>
+    <button type="button" className="btn btn-secondary" onClick={()=>{dispatch(sortCartItem(Const.emSortType.Name))}}>가나다 정렬하기</button>
     <div style={{display : 'flex'}}>    
+      
       <Table>
         <thead>
           <tr>
@@ -100,8 +121,7 @@ export default function Cart(){
       </div>
     </div>
 
-    <Message title={'알림'} content={'상품을 삭제하시겠습니까?'} isDanger={true}/>
-
+    
     </>
   );
 

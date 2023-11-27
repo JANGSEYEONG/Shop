@@ -33,7 +33,7 @@ export default function RecentItem(){
             {
                 [...recentItems].reverse().map((id)=>{
                     let itemTitle = items.find(item=>item.id === id)?.title;
-                    if(Util.IsNullOrWhiteSpace(itemTitle)) return;
+                    if(Util.IsNullOrWhiteSpace(itemTitle)) return null;
                     return (
                         <div onClick={()=>{clickRecent(id)}} className="card" style={{width: '10rem', height: '10rem', marginBottom: '0.5rem'}} key={id}>
                             <img src={`https://codingapple1.github.io/shop/shoes${id+1}.jpg`} className="card-img-top" alt="..."
