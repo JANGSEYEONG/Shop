@@ -92,7 +92,7 @@ export default function Detail(){
                     <div className="container">
                             <div className="row">
                             <div className="col-md-6">
-                            <img src={`https://codingapple1.github.io/shop/shoes${item.id + 1}.jpg`} width="100%" 
+                            <img src={`https:/ㅞㅡ/codingapple1.github.io/shop/shoes${item.id + 1}.jpg`} width="100%" 
                                 onError={onErrorImg} alt="상품이미지"/>
                             </div>
                             <div className="col-md-6">
